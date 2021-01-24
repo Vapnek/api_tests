@@ -1,0 +1,21 @@
+FROM ubuntu:latest
+
+LABEL AUTHOR="Vitalijs Massans" DECSRIPTION="Ubuntu with apimation"
+
+ARG APIMATION_VERSION=0.54.8
+ENV VERSION=${APIMATION_VERSION}
+
+#Install curl
+RUN apt update -y && apt upgrade -y
+RUN apt install curl -y
+
+#Install unzip adn apimation
+RUN apt install wget
+RUN apt install unzip
+
+WORKDIR /usr/src/apimation
+RUN wget https://github.com/apimation/cli-client/releases/download/v${APIMATION_VERSION}/apimation_${APIMATION_VERSION}_linux_amd64.zip
+RUN unzip apimation_${APIMATION_VERSION}_linux_amd64.zip
+RUN rm apimation_${APIMATION_VERSION}_linux_amd64.zip
+
+ENTRYPOINT [ "./apimation" ]
